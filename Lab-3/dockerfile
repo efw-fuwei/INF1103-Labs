@@ -1,0 +1,4 @@
+FROM python:3.14.7-slim
+WORKDIR /app
+COPY . .
+CMD ["python", "modular_auditor.py"]
