@@ -1,16 +1,65 @@
-def load_inventory():
-    try:
-        with open("inventory.txt", "r") as file:
-            data = file.readlines()
+FILE_NAME = "inventory.txt"
+TAX_RATE = 0.1
+FIRST_ORDER_ID = 1001
 
+
+def load_inventory():
+    orders = []
+    try:
+        with open(FILE_NAME, "r") as file:
+            for line in file:
+                line = line.strip()
+                if not line:
+                    continue
+                if (line == "Current Orders:"
+                        or line.startswith("Total Inventory:")
+                        or line.startswith("Total Tax:")):
+                    continue
+                parts = [part.strip() for part in line.split(",")]
+                if len(parts) != 3:
+                    continue
+                try:
+                    order = {
+                        "order_id": int(parts[0]),
+                        "item": parts[1],
+                        "quantity": int(parts[2]),
+                    }
+                except ValueError:
+                    continue
+                orders.append(order)
     except FileNotFoundError:
-        data = []
-    return data
+        orders = []
+    return orders
+
+
+def save_inventory(orders):
+    total = 0
+    for order in orders:
+        total = process_delivery(total, order["quantity"])
+    with open(FILE_NAME, "w") as file:
+        file.write(f"Total Inventory: {total}\n")
+        file.write(f"Total Tax: ${calculate_tax(total):.2f}\n")
+        file.write("Current Orders:\n")
+        for order in orders:
+            file.write(f"{order['order_id']}, {order['item']}, {order['quantity']}\n")
+
+
+def display_current_orders(orders):
+    print("Current Orders:")
+    if len(orders) == 0:
+        print(" (No previous orders found)")
+    else:
+        for order in orders:
+            print(f"{order['order_id']}, {order['item']}, {order['quantity']}")
+    print("-" * 30)
+
+
+def get_product_name():
+    return input("Enter Product Name (or 'quit' to exit): ").strip()
+
 
 def get_valid_input():
-    user_input = input("Enter stock quantity (or type 'quit' to stop): ").strip()
-    if user_input.lower() == 'quit':
-        return 'quit'
+    user_input = input("Enter Quantity: ").strip()
     try:
         int_value = int(user_input)
         if int_value > 0:
@@ -20,42 +69,77 @@ def get_valid_input():
     except ValueError:
         return None
 
+
 def process_delivery(current_total, new_value):
     return current_total + new_value
 
+
 def calculate_tax(amount):
-    return amount * 0.1
-
-def generate_report(total_units, failed_attempts):
-    print(f"Total Deliveries Processed: {total_units}")
-    print(f"Total Failed Entries: {failed_attempts}")
-
-def save_inventory():
-    orders = [
-        f"Added: {deliveries_processed}",
-        f"Tax: {calculate_tax(entry)}",
-        f"New Total: {inventory}"
-    ]
-    with open("inventory.txt", "a") as file:
-        file.writelines(orders)
+    return amount * TAX_RATE
 
 
-inventory = 0
-deliveries_processed = 0
+def generate_report(total_transactions, total_units, failed_attempts):
+    print("\n=== Audit Report ===")
+    print(f"Total Transactions Recorded: {total_transactions}")
+    print(f"Total Units Processed: {total_units}")
+    print(f"Number of Failed/Rejected Entries: {failed_attempts}")
+
+def has_digits(name):
+    for char in name:
+        if char.isdigit():
+            return True
+    return False
+
+
+products = load_inventory()
+display_current_orders(products)
+
+total_inventory = 0
+for order in products:
+    total_inventory = process_delivery(total_inventory, order["quantity"])
+
+order_history = []
 failed_attempts = 0
 
 while True:
-    entry = get_valid_input()
-    if entry == 'quit':
-        break
-    elif entry is None:
-        failed_attempts += 1
-        print("Error: Invalid entry! Please enter a whole number or 'quit' to exit.")
-    else:
-        inventory = process_delivery(inventory, entry)
-        deliveries_processed += 1
-        tax = calculate_tax(entry)
-        print(f"Added: {entry} units\nTax: {tax:.2f}\nNew Total: {inventory}")
+    product_name = get_product_name()
 
-save_inventory()
-generate_report(deliveries_processed, failed_attempts)
+    if product_name.lower() == "quit":
+        break
+
+    if product_name == "":
+        failed_attempts += 1
+        print("Error: Product name cannot be empty!\n")
+        continue
+
+    if has_digits(product_name):
+        failed_attempts += 1
+        print("Error: Product name cannot contain numbers!\n")
+        continue
+
+    quantity = get_valid_input()
+    if quantity is None:
+        failed_attempts += 1
+        print("Error: Invalid entry! Please enter a whole number greater than 0.\n")
+        continue
+
+    if len(products) > 0:
+        new_id = products[-1]["order_id"] + 1
+    else:
+        new_id = FIRST_ORDER_ID
+
+    new_order = {"order_id": new_id, "item": product_name, "quantity": quantity}
+    products.append(new_order)
+    order_history.append(quantity)
+
+    total_inventory = process_delivery(total_inventory, quantity)
+    tax = calculate_tax(quantity)
+
+    print("\nNew Order Added:")
+    print(f"{new_order['order_id']}, {new_order['item']}, {new_order['quantity']}")
+    print(f"Tax: ${tax:.2f} | Total Inventory: {total_inventory}\n")
+
+save_inventory(products)
+print("Order successfully saved to inventory.txt")
+
+generate_report(len(order_history), sum(order_history), failed_attempts)

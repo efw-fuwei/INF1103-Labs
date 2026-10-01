@@ -1,0 +1,13 @@
+Total Inventory: 290
+Total Tax: $29.00
+Current Orders:
+1001, keyboard, 10
+1002, mouse, 10
+1003, keyboard, 20
+1004, laptop, 10
+1005, usb, 30
+1006, wireless mouse, 10
+1007, laptop stand, 20
+1008, headphone, 100
+1009, phone, 50
+1010, fan, 30
