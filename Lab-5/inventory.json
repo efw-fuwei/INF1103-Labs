@@ -1,0 +1,26 @@
+{
+    "Total_Inventory": 130,
+    "Total_Tax": 13.0,
+    "Current_Inventory": [
+        {
+            "order_id": "P001",
+            "item": "laptop",
+            "quantity": 20
+        },
+        {
+            "order_id": "P002",
+            "item": "keyboard",
+            "quantity": 50
+        },
+        {
+            "order_id": "P003",
+            "item": "headphone",
+            "quantity": 10
+        },
+        {
+            "order_id": "P004",
+            "item": "mouse",
+            "quantity": 50
+        }
+    ]
+}

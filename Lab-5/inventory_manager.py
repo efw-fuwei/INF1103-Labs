@@ -6,14 +6,19 @@ ID_PREFIX = "P"
 FIRST_ORDER_NUMBER = 1
 
 def format_order_id(number):
-    return f"{ID_PREFIX}{number:03d}"
+    if isinstance(number, int):
+        return f"{ID_PREFIX}{number:03d}"
+    digits = "".join(filter(str.isdigit, str(number)))
+    if digits:
+        return f"{ID_PREFIX}{int(digits):03d}"
+    return str(number)
 
 
 def load_inventory():
     try:
         with open(FILE_NAME, "r") as file:
             data = json.load(file)
-            return data["orders"]
+            return data.get("Current_Inventory", data.get("orders", []))
     except FileNotFoundError:
         return []
 
@@ -37,7 +42,7 @@ def display_current_orders(orders):
         print(" (No previous orders found)")
     else:
         for order in orders:
-            print(f"{order['order_id']}, {order['item']}, {order['quantity']}")
+            print(f"{format_order_id(order['order_id'])}, {order['item']}, {order['quantity']}")
     print("-" * 30)
 
 
@@ -111,10 +116,13 @@ while True:
         continue
 
     if len(products) > 0:
-        new_id = products[-1]["order_id"] + 1
+        last_id = products[-1]["order_id"]
+        digits = "".join(filter(str.isdigit, str(last_id)))
+        next_num = int(digits) + 1 if digits else FIRST_ORDER_NUMBER
     else:
-        new_id = FIRST_ORDER_NUMBER
+        next_num = FIRST_ORDER_NUMBER
 
+    new_id = format_order_id(next_num)
     new_order = {"order_id": new_id, "item": product_name, "quantity": quantity}
     products.append(new_order)
     order_history.append(quantity)
