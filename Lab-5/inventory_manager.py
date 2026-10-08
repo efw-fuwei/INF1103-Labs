@@ -55,7 +55,7 @@ def add_product(inventory):
 
     while True:
         try:
-            price = float(input("Price: "))
+            price = round(float(input("Price: ")), 2)
             if price < 0:
                 print("Price cannot be negative. Please enter again.")
                 continue
