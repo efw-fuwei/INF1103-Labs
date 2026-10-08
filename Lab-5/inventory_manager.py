@@ -1,4 +1,3 @@
-#####
 import json
 
 FILE_NAME = "inventory.json"
