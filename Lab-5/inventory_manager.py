@@ -1,140 +1,147 @@
 import json
 
 FILE_NAME = "inventory.json"
-TAX_RATE = 0.1
-ID_PREFIX = "P"
-FIRST_ORDER_NUMBER = 1
-
-def format_order_id(number):
-    if isinstance(number, int):
-        return f"{ID_PREFIX}{number:03d}"
-    digits = "".join(filter(str.isdigit, str(number)))
-    if digits:
-        return f"{ID_PREFIX}{int(digits):03d}"
-    return str(number)
 
 
 def load_inventory():
     try:
         with open(FILE_NAME, "r") as file:
             data = json.load(file)
-            return data.get("Current_Inventory", data.get("orders", []))
+            print(f"{FILE_NAME} found.")
+            print("Inventory loaded successfully.")
+            if isinstance(data, list):
+                return data
+            elif isinstance(data, dict):
+                return data.get("Current_Inventory", data.get("inventory", []))
+            return []
     except FileNotFoundError:
+        print(f"{FILE_NAME} not found.")
         return []
 
 
-def save_inventory(orders):
-    total = 0
-    for order in orders:
-        total = process_delivery(total, order["quantity"])
-    data = {
-        "Total_Inventory": total,
-        "Total_Tax": calculate_tax(total),
-        "Current_Inventory": orders
-    }
+def save_inventory(inventory):
     with open(FILE_NAME, "w") as file:
-        json.dump(data, file, indent=4)
+        json.dump(inventory, file, indent=4)
 
 
-def display_current_orders(orders):
-    print("Current Inventory:")
-    if len(orders) == 0:
-        print(" (No previous orders found)")
+def display_all(inventory):
+    print("Current Inventory")
+    print("-" * 48)
+    for item in inventory:
+        print(f"ID: {item['id']} | Name: {item['name']} | Price: ${float(item['price']):.2f} | Stock: {item['stock']}")
+    print("-" * 48)
+
+
+def add_product(inventory):
+    print("Add New Product")
+    product_id = input("Product ID: ").strip()
+    name = input("Product Name: ").strip()
+    price = float(input("Price: ").strip().replace("$", ""))
+    stock = int(input("Stock Quantity: ").strip())
+
+    new_product = {
+        "id": product_id,
+        "name": name,
+        "price": price,
+        "stock": stock
+    }
+    inventory.append(new_product)
+    print("Product added successfully!")
+
+
+def update_stock(inventory):
+    print("Update Stock")
+    product_id = input("Enter Product ID: ").strip()
+
+    found_product = None
+    for item in inventory:
+        if item["id"].lower() == product_id.lower():
+            found_product = item
+            break
+
+    if found_product:
+        print("Product Found:")
+        print(f"Name: {found_product['name']}")
+        print(f"Current Stock: {found_product['stock']}")
+        new_stock = int(input("New Stock Quantity: ").strip())
+        found_product["stock"] = new_stock
+        print("Stock updated successfully!")
     else:
-        for order in orders:
-            print(f"{format_order_id(order['order_id'])}, {order['item']}, {order['quantity']}")
-    print("-" * 30)
+        print("Product not found.")
 
 
-def get_product_name():
-    return input("Enter Product Name (or 'quit' to exit): ").strip()
+def search_product(inventory):
+    print("Search Product")
+    product_id = input("Enter Product ID: ").strip()
+
+    found_product = None
+    for item in inventory:
+        if item["id"].lower() == product_id.lower():
+            found_product = item
+            break
+
+    if found_product:
+        print("Product Found")
+        print("-" * 48)
+        print(f"ID: {found_product['id']}")
+        print(f"Name: {found_product['name']}")
+        print(f"Price: ${float(found_product['price']):.2f}")
+        print(f"Stock: {found_product['stock']}")
+        print("-" * 48)
+    else:
+        print("Product not found.")
 
 
-def get_valid_input():
-    user_input = input("Enter Quantity: ").strip()
-    try:
-        int_value = int(user_input)
-        if int_value > 0:
-            return int_value
+def display_menu():
+    print("----------- MENU -----------")
+    print("1. Display All Products")
+    print("2. Add Product")
+    print("3. Update Stock")
+    print("4. Search Product")
+    print("5. Save Inventory")
+    print("6. Exit")
+    print("-" * 28)
+
+
+def main():
+    print("=" * 40)
+    print("INVENTORY MANAGEMENT SYSTEM")
+    print("=" * 40)
+
+    inventory = load_inventory()
+    display_menu()
+
+    while True:
+        choice = input("Enter option: ").strip()
+
+        if choice == "1":
+            display_all(inventory)
+            print()
+        elif choice == "2":
+            add_product(inventory)
+            print()
+        elif choice == "3":
+            update_stock(inventory)
+            print()
+        elif choice == "4":
+            search_product(inventory)
+            print()
+        elif choice == "5":
+            print("Saving inventory...")
+            save_inventory(inventory)
+            print(f"Inventory saved successfully to {FILE_NAME}.")
+            print()
+        elif choice == "6":
+            print("Saving inventory before exit...")
+            save_inventory(inventory)
+            print("Inventory saved successfully.")
+            print("Thank you for using Inventory Management System.")
+            print("Program terminated.")
+            break
         else:
-            return None
-    except ValueError:
-        return None
+            print("Invalid option. Please try again.")
+            print()
 
 
-def process_delivery(current_total, new_value):
-    return current_total + new_value
-
-
-def calculate_tax(amount):
-    return amount * TAX_RATE
-
-
-def generate_report(total_transactions, total_units, failed_attempts):
-    print("\n=== Audit Report ===")
-    print(f"Total Transactions Recorded: {total_transactions}")
-    print(f"Total Units Processed: {total_units}")
-    print(f"Number of Failed/Rejected Entries: {failed_attempts}")
-
-def has_digits(name):
-    for char in name:
-        if char.isdigit():
-            return True
-    return False
-
-
-products = load_inventory()
-display_current_orders(products)
-
-total_inventory = 0
-for order in products:
-    total_inventory = process_delivery(total_inventory, order["quantity"])
-
-order_history = []
-failed_attempts = 0
-
-while True:
-    product_name = get_product_name()
-
-    if product_name.lower() == "quit":
-        break
-
-    if product_name == "":
-        failed_attempts += 1
-        print("Error: Product name cannot be empty!\n")
-        continue
-
-    if has_digits(product_name):
-        failed_attempts += 1
-        print("Error: Product name cannot contain numbers!\n")
-        continue
-
-    quantity = get_valid_input()
-    if quantity is None:
-        failed_attempts += 1
-        print("Error: Invalid entry! Please enter a whole number greater than 0.\n")
-        continue
-
-    if len(products) > 0:
-        last_id = products[-1]["order_id"]
-        digits = "".join(filter(str.isdigit, str(last_id)))
-        next_num = int(digits) + 1 if digits else FIRST_ORDER_NUMBER
-    else:
-        next_num = FIRST_ORDER_NUMBER
-
-    new_id = format_order_id(next_num)
-    new_order = {"order_id": new_id, "item": product_name, "quantity": quantity}
-    products.append(new_order)
-    order_history.append(quantity)
-
-    total_inventory = process_delivery(total_inventory, quantity)
-    tax = calculate_tax(quantity)
-
-    print("\nNew Order Added:")
-    print(f"{format_order_id(new_order['order_id'])}, {new_order['item']}, {new_order['quantity']}")
-    print(f"Tax: ${tax:.2f} | Total Inventory: {total_inventory}\n")
-
-save_inventory(products)
-print("Order successfully saved to inventory.json")
-
-generate_report(len(order_history), sum(order_history), failed_attempts)
+if __name__ == "__main__":
+    main()

@@ -1,26 +1,38 @@
-{
-    "Total_Inventory": 130,
-    "Total_Tax": 13.0,
-    "Current_Inventory": [
-        {
-            "order_id": "P001",
-            "item": "laptop",
-            "quantity": 20
-        },
-        {
-            "order_id": "P002",
-            "item": "keyboard",
-            "quantity": 50
-        },
-        {
-            "order_id": "P003",
-            "item": "headphone",
-            "quantity": 10
-        },
-        {
-            "order_id": "P004",
-            "item": "mouse",
-            "quantity": 50
-        }
-    ]
-}
+[
+    {
+        "id": "P001",
+        "name": "Laptop",
+        "price": 1200.0,
+        "stock": 15
+    },
+    {
+        "id": "P002",
+        "name": "Mouse",
+        "price": 25.5,
+        "stock": 100
+    },
+    {
+        "id": "P003",
+        "name": "Keyboard",
+        "price": 45.0,
+        "stock": 25
+    },
+    {
+        "id": "P004",
+        "name": "Headphone",
+        "price": 100.0,
+        "stock": 50
+    },
+    {
+        "id": "P005",
+        "name": "Monitor",
+        "price": 299.99,
+        "stock": 10
+    },
+    {
+        "id": "P006",
+        "name": "Wireless Mouse",
+        "price": 15.0,
+        "stock": 10
+    }
+]
