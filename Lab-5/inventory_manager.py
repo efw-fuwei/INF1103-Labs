@@ -9,11 +9,7 @@ def load_inventory():
             data = json.load(file)
             print(f"{FILE_NAME} found.")
             print("Inventory loaded successfully.")
-            if isinstance(data, list):
-                return data
-            elif isinstance(data, dict):
-                return data.get("Current_Inventory", data.get("inventory", []))
-            return []
+            return data
     except FileNotFoundError:
         print(f"{FILE_NAME} not found.")
         return []
@@ -28,16 +24,54 @@ def display_all(inventory):
     print("Current Inventory")
     print("-" * 48)
     for item in inventory:
-        print(f"ID: {item['id']} | Name: {item['name']} | Price: ${float(item['price']):.2f} | Stock: {item['stock']}")
+        print(f"ID: {item['id']} | Name: {item['name']} | Price: ${item['price']:.2f} | Stock: {item['stock']}")
     print("-" * 48)
 
 
 def add_product(inventory):
     print("Add New Product")
-    product_id = input("Product ID: ").strip()
-    name = input("Product Name: ").strip()
-    price = float(input("Price: ").strip().replace("$", ""))
-    stock = int(input("Stock Quantity: ").strip())
+    while True:
+        product_id = input("Product ID: ").strip()
+        if not product_id:
+            print("Product ID cannot be empty.")
+            continue
+        exists = False
+        for item in inventory:
+            item_id = item.get("id") or item.get("order_id", "")
+            if item_id.lower() == product_id.lower():
+                exists = True
+                break
+        if exists:
+            print("Product ID already exists. Please enter a different ID.")
+            continue
+        break
+
+    while True:
+        name = input("Product Name: ").strip()
+        if not name:
+            print("Product Name cannot be empty.")
+            continue
+        break
+
+    while True:
+        try:
+            price = float(input("Price: "))
+            if price < 0:
+                print("Price cannot be negative. Please enter again.")
+                continue
+            break
+        except ValueError:
+            print("Invalid input! Please enter a valid number.")
+
+    while True:
+        try:
+            stock = int(input("Stock Quantity: "))
+            if stock < 0:
+                print("Stock cannot be negative. Please enter again.")
+                continue
+            break
+        except ValueError:
+            print("Invalid input! Please enter a valid number.")
 
     new_product = {
         "id": product_id,
@@ -55,7 +89,8 @@ def update_stock(inventory):
 
     found_product = None
     for item in inventory:
-        if item["id"].lower() == product_id.lower():
+        item_id = item.get("id") or item.get("order_id", "")
+        if item_id.lower() == product_id.lower():
             found_product = item
             break
 
@@ -63,7 +98,15 @@ def update_stock(inventory):
         print("Product Found:")
         print(f"Name: {found_product['name']}")
         print(f"Current Stock: {found_product['stock']}")
-        new_stock = int(input("New Stock Quantity: ").strip())
+        while True:
+            try:
+                new_stock = int(input("New Stock Quantity: "))
+                if new_stock < 0:
+                    print("Stock cannot be negative. Please enter again.")
+                    continue
+                break
+            except ValueError:
+                print("Invalid input! Please enter a valid number.")
         found_product["stock"] = new_stock
         print("Stock updated successfully!")
     else:
@@ -76,7 +119,8 @@ def search_product(inventory):
 
     found_product = None
     for item in inventory:
-        if item["id"].lower() == product_id.lower():
+        item_id = item.get("id") or item.get("order_id", "")
+        if item_id.lower() == product_id.lower():
             found_product = item
             break
 
@@ -85,7 +129,7 @@ def search_product(inventory):
         print("-" * 48)
         print(f"ID: {found_product['id']}")
         print(f"Name: {found_product['name']}")
-        print(f"Price: ${float(found_product['price']):.2f}")
+        print(f"Price: ${found_product['price']:.2f}")
         print(f"Stock: {found_product['stock']}")
         print("-" * 48)
     else:
@@ -109,9 +153,9 @@ def main():
     print("=" * 40)
 
     inventory = load_inventory()
-    display_menu()
 
     while True:
+        display_menu()
         choice = input("Enter option: ").strip()
 
         if choice == "1":
@@ -143,5 +187,4 @@ def main():
             print()
 
 
-if __name__ == "__main__":
-    main()
+main()

@@ -3,13 +3,13 @@
         "id": "P001",
         "name": "Laptop",
         "price": 1200.0,
-        "stock": 15
+        "stock": 20
     },
     {
         "id": "P002",
         "name": "Mouse",
         "price": 25.5,
-        "stock": 100
+        "stock": 50
     },
     {
         "id": "P003",
@@ -19,20 +19,14 @@
     },
     {
         "id": "P004",
-        "name": "Headphone",
-        "price": 100.0,
-        "stock": 50
-    },
-    {
-        "id": "P005",
         "name": "Monitor",
         "price": 299.99,
         "stock": 10
     },
     {
-        "id": "P006",
-        "name": "Wireless Mouse",
-        "price": 15.0,
-        "stock": 10
+        "id": "P005",
+        "name": "Headphone",
+        "price": 100.0,
+        "stock": 50
     }
 ]
