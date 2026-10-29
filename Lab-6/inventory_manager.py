@@ -1,6 +1,6 @@
 import json
 
-# FILE_NAME = "inventory.json"
+FILE_NAME = "inventory.json"
 
 
 class Product:
