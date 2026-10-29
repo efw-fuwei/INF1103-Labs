@@ -9,7 +9,7 @@
         "id": "P002",
         "name": "Mouse",
         "price": 25.5,
-        "stock": 50
+        "stock": 45
     },
     {
         "id": "P003",
@@ -34,5 +34,17 @@
         "name": "USB Cable",
         "price": 2.0,
         "stock": 50
+    },
+    {
+        "id": "P007",
+        "name": "Webcam",
+        "price": 49.99,
+        "stock": 30
+    },
+    {
+        "id": "P008",
+        "name": "Wireless Mouse",
+        "price": 15.0,
+        "stock": 30
     }
 ]
