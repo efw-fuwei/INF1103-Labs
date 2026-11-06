@@ -1,0 +1,82 @@
+[
+    {
+        "type": "physical",
+        "id": "P001",
+        "name": "Laptop",
+        "price": 1200.0,
+        "stock": 20,
+        "weight": 2.2
+    },
+    {
+        "type": "physical",
+        "id": "P002",
+        "name": "Mouse",
+        "price": 25.5,
+        "stock": 45,
+        "weight": 0.1
+    },
+    {
+        "type": "physical",
+        "id": "P003",
+        "name": "Keyboard",
+        "price": 45.0,
+        "stock": 25,
+        "weight": 0.8
+    },
+    {
+        "type": "physical",
+        "id": "P004",
+        "name": "Monitor",
+        "price": 299.99,
+        "stock": 10,
+        "weight": 4.5
+    },
+    {
+        "type": "digital",
+        "id": "P005",
+        "name": "Antivirus Pro",
+        "price": 49.99,
+        "stock": 100,
+        "download_size": 350.0
+    },
+    {
+        "type": "physical",
+        "id": "P006",
+        "name": "USB Cable",
+        "price": 2.0,
+        "stock": 50,
+        "weight": 0.05
+    },
+    {
+        "type": "physical",
+        "id": "P007",
+        "name": "Webcam",
+        "price": 49.99,
+        "stock": 30,
+        "weight": 0.2
+    },
+    {
+        "type": "digital",
+        "id": "P008",
+        "name": "Cloud Backup License",
+        "price": 19.99,
+        "stock": 200,
+        "download_size": 75.0
+    },
+    {
+        "type": "physical",
+        "id": "P009",
+        "name": "Headphones",
+        "price": 89.9,
+        "stock": 15,
+        "weight": 0.4
+    },
+    {
+        "type": "digital",
+        "id": "P010",
+        "name": "Photo Editor",
+        "price": 59.99,
+        "stock": 50,
+        "download_size": 1200.0
+    }
+]
