@@ -2,19 +2,19 @@
     {
         "id": "P001",
         "name": "Laptop",
-        "price": 1200.00,
+        "price": 1200.0,
         "stock": 20
     },
     {
         "id": "P002",
         "name": "Mouse",
-        "price": 25.50,
+        "price": 25.5,
         "stock": 50
     },
     {
         "id": "P003",
         "name": "Keyboard",
-        "price": 45.00,
+        "price": 45.0,
         "stock": 25
     },
     {
@@ -26,13 +26,13 @@
     {
         "id": "P005",
         "name": "Headphone",
-        "price": 100.00,
+        "price": 100.0,
         "stock": 50
     },
     {
         "id": "P006",
         "name": "USB Cable",
-        "price": 2.00,
+        "price": 2.0,
         "stock": 50
     }
 ]

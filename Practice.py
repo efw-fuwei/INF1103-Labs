@@ -1,7 +1,8 @@
-def square(x):
-    return x * x
+import copy
 
-def apply_fuction(func, value):
-    return (func(value))
+list1 = [[1, 2], [3, 4]]
+list2 = copy.deepcopy(list1)  # Creates brand-new copies of EVERYTHING inside
 
-print(apply_fuction(square, 5))
+list2[1][1] = 99
+print(list1)  # Output: [[1, 2], [3, 4]] -> Unchanged!
+print(list2)  # Output: [[99, 2], [3, 4]] -> Changed!
