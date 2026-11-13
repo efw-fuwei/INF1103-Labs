@@ -67,6 +67,9 @@ def test_composition() -> None:
     order1.remove_order_line("T005")
     print("After removing T005 from Order 1:")
     order1.display_order()
+    software.display_information()
+    del order2
+    headset.display_information()
     print()
 
 
@@ -83,6 +86,10 @@ def test_lsp_and_polymorphism() -> None:
     inventory = Inventory()
     inventory.add_product(monitor)
     inventory.add_product(antivirus)
+
+    print("\nUpdating stock via Product abstraction:")
+    for product in inventory.get_products():
+        product.update_stock(product.get_stock() + 5)
 
     print("\nPolymorphic loop over Inventory:")
     for product in inventory.get_products():

@@ -1,5 +1,6 @@
 import json
 from abc import ABC, abstractmethod
+from collections.abc import Iterator
 
 FILE_NAME = "inventory.json"
 
@@ -172,7 +173,7 @@ class Inventory:
     def get_products(self) -> list[Product]:
         return self.__products
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Product]:
         return iter(self.__products)
 
     def __len__(self) -> int:
