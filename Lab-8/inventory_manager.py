@@ -1,4 +1,5 @@
 import json
+import re
 from abc import ABC, abstractmethod
 from collections.abc import Iterator
 
@@ -370,9 +371,13 @@ def add_product(inventory: Inventory) -> None:
             print("Supplier Name cannot be empty.")
         while True:
             sup_email = input("Supplier Contact Email: ").strip()
-            if sup_email:
-                break
-            print("Supplier Email cannot be empty.")
+            if not sup_email:
+                print("Supplier Email cannot be empty.")
+                continue
+            if not re.match(r"^[^@\s]+@([^@\s.]+\.)+[^@\s.]+$", sup_email):
+                print("Invalid email format. Please enter a valid email (e.g. name@example.com).")
+                continue
+            break
         supplier = Supplier(supplier_id, sup_name, sup_email)
 
     if product_type == "1":
