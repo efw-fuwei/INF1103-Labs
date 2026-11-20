@@ -1,0 +1,145 @@
+[
+    {
+        "type": "physical",
+        "id": "P001",
+        "name": "Laptop",
+        "price": 1200.0,
+        "stock": 20,
+        "supplier": {
+            "supplier_id": "S001",
+            "name": "TechSupply Co",
+            "contact_email": "orders@techsupply.com"
+        },
+        "weight": 2.2
+    },
+    {
+        "type": "physical",
+        "id": "P002",
+        "name": "Mouse",
+        "price": 25.5,
+        "stock": 45,
+        "supplier": {
+            "supplier_id": "S002",
+            "name": "GadgetHub",
+            "contact_email": "sales@gadgethub.com"
+        },
+        "weight": 0.1
+    },
+    {
+        "type": "physical",
+        "id": "P003",
+        "name": "Keyboard",
+        "price": 45.0,
+        "stock": 25,
+        "supplier": {
+            "supplier_id": "S002",
+            "name": "GadgetHub",
+            "contact_email": "sales@gadgethub.com"
+        },
+        "weight": 0.8
+    },
+    {
+        "type": "physical",
+        "id": "P004",
+        "name": "Monitor",
+        "price": 299.99,
+        "stock": 10,
+        "supplier": {
+            "supplier_id": "S001",
+            "name": "TechSupply Co",
+            "contact_email": "orders@techsupply.com"
+        },
+        "weight": 4.5
+    },
+    {
+        "type": "digital",
+        "id": "P005",
+        "name": "Antivirus Pro",
+        "price": 49.99,
+        "stock": 100,
+        "supplier": {
+            "supplier_id": "S003",
+            "name": "SoftWarez Ltd",
+            "contact_email": "support@softwarez.io"
+        },
+        "download_size": 350.0
+    },
+    {
+        "type": "physical",
+        "id": "P006",
+        "name": "USB Cable",
+        "price": 2.0,
+        "stock": 50,
+        "supplier": {
+            "supplier_id": "S002",
+            "name": "GadgetHub",
+            "contact_email": "sales@gadgethub.com"
+        },
+        "weight": 0.05
+    },
+    {
+        "type": "physical",
+        "id": "P007",
+        "name": "Webcam",
+        "price": 49.99,
+        "stock": 30,
+        "supplier": {
+            "supplier_id": "S002",
+            "name": "GadgetHub",
+            "contact_email": "sales@gadgethub.com"
+        },
+        "weight": 0.2
+    },
+    {
+        "type": "digital",
+        "id": "P008",
+        "name": "Cloud Backup License",
+        "price": 19.99,
+        "stock": 200,
+        "supplier": {
+            "supplier_id": "S003",
+            "name": "SoftWarez Ltd",
+            "contact_email": "support@softwarez.io"
+        },
+        "download_size": 75.0
+    },
+    {
+        "type": "physical",
+        "id": "P009",
+        "name": "Headphones",
+        "price": 89.9,
+        "stock": 15,
+        "supplier": {
+            "supplier_id": "S001",
+            "name": "TechSupply Co",
+            "contact_email": "orders@techsupply.com"
+        },
+        "weight": 0.4
+    },
+    {
+        "type": "digital",
+        "id": "P010",
+        "name": "Photo Editor",
+        "price": 59.99,
+        "stock": 50,
+        "supplier": {
+            "supplier_id": "S003",
+            "name": "SoftWarez Ltd",
+            "contact_email": "support@softwarez.io"
+        },
+        "download_size": 1200.0
+    },
+    {
+        "type": "physical",
+        "id": "P011",
+        "name": "Iphone",
+        "price": 1500.0,
+        "stock": 20,
+        "supplier": {
+            "supplier_id": "S001",
+            "name": "TechSupply Co",
+            "contact_email": "orders@techsupply.com"
+        },
+        "weight": 0.5
+    }
+]
